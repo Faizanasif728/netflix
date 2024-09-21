@@ -5,6 +5,10 @@ var logger = require("morgan");
 
 var userRouter = require("./routes/userRouter");
 var authRouter = require("./routes/authRouter");
+
+var movieRouter = require("./routes/movieRouter");
+
+const sequelize = require("./bin/DBconnection");
 var app = express();
 
 // view engine setup
@@ -18,6 +22,8 @@ app.use(cookieParser());
 
 app.use("/users", userRouter);
 app.use("/auth", authRouter);
+
+app.use("/movie", movieRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

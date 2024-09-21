@@ -8,6 +8,7 @@ const sequelize = new Sequelize({
   host: process.env.DB_HOST,
   database: process.env.DB_NAME,
   dialect: process.env.DB_DIALECT,
+  TMDB_API_KEY: process.env.TMDB_API_KEY,
 });
 
 sequelize
