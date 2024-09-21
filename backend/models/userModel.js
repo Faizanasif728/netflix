@@ -12,7 +12,6 @@ module.exports = {
       });
     }
   },
-
   getAllUsers: async (req, res) => {
     try {
       const users = await models.users.findAll({
@@ -28,7 +27,6 @@ module.exports = {
       return { error: error };
     }
   },
-
   getUser: async ({ userId, username }) => {
     try {
       const users = await models.users.findOne({
@@ -45,7 +43,6 @@ module.exports = {
       return { error: error };
     }
   },
-
   deleteUser: async ({ userId, username }) => {
     try {
       const user = await models.users.destroy({
@@ -69,6 +66,24 @@ module.exports = {
           },
         }
       );
+      return { response: user };
+    } catch (error) {
+      console.log(error);
+      return res.send({
+        error: error,
+      });
+    }
+  },
+  profile: async ({ userId }) => {
+    try {
+      const user = await models.users.findOne({
+        where: {
+          userId: userId,
+        },
+        attributes: {
+          exclude: ["password"],
+        },
+      });
       return { response: user };
     } catch (error) {
       console.log(error);
