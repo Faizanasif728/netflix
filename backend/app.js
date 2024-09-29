@@ -2,6 +2,7 @@ var createError = require("http-errors");
 var express = require("express");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
+var cors = require("cors");
 //----------------------------------------------------
 //remember
 var userRouter = require("./routes/userRouter");
@@ -15,7 +16,13 @@ const middleware = require("./middleware");
 //----------------------------------------------------
 
 var app = express();
-
+app.use(
+  cors({
+    origin: "http://localhost:5173", // Allow requests from this origin
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE", // Allowed methods
+    credentials: true, // Allow credentials
+  })
+);
 // view engine setup
 
 app.set("view engine", "jade");
