@@ -6,9 +6,7 @@ import { Trash } from "lucide-react";
 import toast from "react-hot-toast";
 
 function formatDate(dateString) {
-  // Create a Date object from the input date string
   const date = new Date(dateString);
-
   const monthNames = [
     "Jan",
     "Feb",
@@ -23,39 +21,52 @@ function formatDate(dateString) {
     "Nov",
     "Dec",
   ];
-
-  // Extract the month, day, and year from the Date object
   const month = monthNames[date.getUTCMonth()];
   const day = date.getUTCDate();
   const year = date.getUTCFullYear();
-
-  // Return the formatted date string
   return `${month} ${day}, ${year}`;
 }
 
 const SearchHistoryPage = () => {
   const [searchHistory, setSearchHistory] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const getSearchHistory = async () => {
+      setLoading(true);
       try {
-        const res = await axios.get(`/api/v1/search/history`);
+        const res = await axios.get(`/search/history`);
         setSearchHistory(res.data.content);
       } catch (error) {
+        console.log(error);
+        toast.error("Failed to fetch search history");
         setSearchHistory([]);
+      } finally {
+        setLoading(false);
       }
     };
     getSearchHistory();
   }, []);
 
   const handleDelete = async (entry) => {
-    try {
-      await axios.delete(`/api/v1/search/history/${entry.id}`);
-      setSearchHistory(searchHistory.filter((item) => item.id !== entry.id));
-    } catch (error) {
-      toast.error("Failed to delete search item");
+    if (window.confirm("Are you sure you want to delete this entry?")) {
+      try {
+        await axios.delete(`/search/history/${entry.id}`);
+        setSearchHistory((prev) => prev.filter((item) => item.id !== entry.id));
+      } catch (error) {
+        console.log(error);
+        toast.error("Failed to delete search item");
+      }
     }
   };
+
+  if (loading) {
+    return (
+      <div className="bg-black min-h-screen text-white flex justify-center items-center">
+        <p>Loading...</p>
+      </div>
+    );
+  }
 
   if (searchHistory?.length === 0) {
     return (
@@ -74,10 +85,9 @@ const SearchHistoryPage = () => {
   return (
     <div className="bg-black text-white min-h-screen">
       <Navbar />
-
       <div className="max-w-6xl mx-auto px-4 py-8">
         <h1 className="text-3xl font-bold mb-8">Search History</h1>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3  gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {searchHistory?.map((entry) => (
             <div
               key={entry.id}
@@ -96,7 +106,7 @@ const SearchHistoryPage = () => {
               </div>
 
               <span
-                className={`py-1 px-3 min-w-20 text-center rounded-full text-sm  ml-auto ${
+                className={`py-1 px-3 min-w-20 text-center rounded-full text-sm ml-auto ${
                   entry.searchType === "movie"
                     ? "bg-red-600"
                     : entry.searchType === "tv"
@@ -117,4 +127,5 @@ const SearchHistoryPage = () => {
     </div>
   );
 };
+
 export default SearchHistoryPage;
