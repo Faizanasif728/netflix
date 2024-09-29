@@ -1,8 +1,6 @@
 const { hash } = require("bcryptjs");
 const {
   createUserModel,
-  getAllUsers,
-  getUser,
   deleteUser,
   updateUser,
   profile,
@@ -15,26 +13,6 @@ module.exports = {
       responseHandler(user, res);
     } catch (error) {
       console.log(error);
-      return res.send({
-        error: error,
-      });
-    }
-  },
-  getAll: async (req, res) => {
-    try {
-      const users = await getAllUsers(req.query);
-      responseHandler(users, res);
-    } catch (error) {
-      return res.send({
-        error: error,
-      });
-    }
-  },
-  getUser: async (req, res) => {
-    try {
-      const user = await getUser(req.query);
-      responseHandler(user, res);
-    } catch (error) {
       return res.send({
         error: error,
       });

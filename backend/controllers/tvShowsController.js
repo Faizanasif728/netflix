@@ -1,10 +1,10 @@
 const fetchFromTheMovieDatabaseAPI = require("../services/tmdbService");
 // console.log("fetchFromAPI:", fetchFromTheMovieDatabaseAPI);
 module.exports = {
-  getTrendingMovie: async (req, res) => {
+  getTvShowTrending: async (req, res) => {
     try {
       const data = await fetchFromTheMovieDatabaseAPI(
-        "https://api.themoviedb.org/3/trending/movie/day?language=en-US"
+        "https://api.themoviedb.org/3/trending/tv/day?language=en-US"
       );
       const randomMovie =
         data.results[Math.floor(Math.random() * data.results?.length)];
@@ -16,11 +16,11 @@ module.exports = {
       });
     }
   },
-  getMovieTrailer: async (req, res) => {
+  getTvShowTrailer: async (req, res) => {
     const { id } = req.params;
     try {
       const data = await fetchFromTheMovieDatabaseAPI(
-        `https://api.themoviedb.org/3/movie/${id}/videos?language=en-US`
+        `https://api.themoviedb.org/3/tv/${id}/videos?language=en-US`
       );
       res.json({ success: true, trailer: data.results });
     } catch (error) {
@@ -33,11 +33,11 @@ module.exports = {
       });
     }
   },
-  getMovieDetails: async (req, res) => {
+  getTvShowDetails: async (req, res) => {
     const { id } = req.params;
     try {
       const data = await fetchFromTheMovieDatabaseAPI(
-        `https://api.themoviedb.org/3/movie/${id}?language=en-US`
+        `https://api.themoviedb.org/3/tv/${id}?language=en-US`
       );
       res.json({ success: true, content: data });
     } catch (error) {
@@ -50,11 +50,11 @@ module.exports = {
       });
     }
   },
-  getSimilarMovies: async (req, res) => {
+  getTvShowSimilar: async (req, res) => {
     const { id } = req.params;
     try {
       const data = await fetchFromTheMovieDatabaseAPI(
-        `https://api.themoviedb.org/3/movie/${id}/similar?language=en-US&page=1`
+        `https://api.themoviedb.org/3/tv/${id}/similar?language=en-US&page=1`
       );
       res.json({ success: true, similar: data.results });
     } catch (error) {
@@ -64,11 +64,11 @@ module.exports = {
       });
     }
   },
-  getCategory: async (req, res) => {
+  getTvShowCategory: async (req, res) => {
     const { category } = req.params;
     try {
       const data = await fetchFromTheMovieDatabaseAPI(
-        `https://api.themoviedb.org/3/movie/${category}?language=en-US&page=1`
+        `https://api.themoviedb.org/3/tv/${category}?language=en-US&page=1`
       );
       res.json({ success: true, content: data.results });
     } catch (error) {

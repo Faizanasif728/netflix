@@ -12,42 +12,25 @@ module.exports = {
       });
     }
   },
-  getAllUsers: async (req, res) => {
-    try {
-      const users = await models.users.findAll({
-        attributes: {
-          exclude: ["password"],
-        },
-      });
-      return {
-        response: users,
-      };
-    } catch (error) {
-      console.error(error);
-      return { error: error };
-    }
-  },
-  getUser: async ({ userId, username }) => {
+  getUser: async ({ username, email }) => {
     try {
       const users = await models.users.findOne({
         where: {
-          ...(userId ? { userId: userId } : { username: username }),
+          ...(username ? { username: username } : { email: email }),
         },
-        // attributes: {
-        //   exclude: ["password"],
-        // },
       });
+
       return { response: users };
     } catch (error) {
       console.error(error);
       return { error: error };
     }
   },
-  deleteUser: async ({ userId, username }) => {
+  deleteUser: async ({ username, email }) => {
     try {
       const user = await models.users.destroy({
         where: {
-          ...(userId ? { userId: userId } : { username: username }),
+          ...(username ? { username: username } : { email: email }),
         },
       });
       return { response: user };
@@ -56,13 +39,13 @@ module.exports = {
       return { error: error };
     }
   },
-  updateUser: async ({ userId, ...body }) => {
+  updateUser: async ({ username, ...body }) => {
     try {
       const user = await models.users.update(
         { ...body },
         {
           where: {
-            userId: userId,
+            username: username,
           },
         }
       );
@@ -74,11 +57,11 @@ module.exports = {
       });
     }
   },
-  profile: async ({ userId }) => {
+  profile: async ({ username }) => {
     try {
       const user = await models.users.findOne({
         where: {
-          userId: userId,
+          username: username,
         },
         attributes: {
           exclude: ["password"],

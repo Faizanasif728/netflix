@@ -2,13 +2,18 @@ var createError = require("http-errors");
 var express = require("express");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
-
+//----------------------------------------------------
+//remember
 var userRouter = require("./routes/userRouter");
 var authRouter = require("./routes/authRouter");
 
 var movieRouter = require("./routes/movieRouter");
+var tvShowsRouter = require("./routes/tvShowsRouter");
+var searchRouter = require("./routes/searchRouter");
 
-const sequelize = require("./bin/DBconnection");
+const middleware = require("./middleware");
+//----------------------------------------------------
+
 var app = express();
 
 // view engine setup
@@ -20,10 +25,15 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
+//----------------------------------------------------
+//remember
 app.use("/users", userRouter);
 app.use("/auth", authRouter);
 
-app.use("/movie", movieRouter);
+app.use("/movie", middleware, movieRouter);
+app.use("/tv", middleware, tvShowsRouter);
+app.use("/search", middleware, searchRouter);
+//----------------------------------------------------
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
