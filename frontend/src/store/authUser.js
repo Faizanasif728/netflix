@@ -8,10 +8,16 @@ export const useAuthStore = create((set) => ({
   isCheckingAuth: true,
   isLoggingOut: false,
   isLoggingIn: false,
+  isLoggedIn: false,
+
   signUp: async (credentials) => {
     set({ isSigningUp: true });
     try {
-      const response = await axios.post("/auth/signup", credentials);
+      axios.defaults.withCredentials = true;
+      const response = await axios.post(
+        "http://localhost:3000/users/create",
+        credentials
+      );
       set({ user: response.data.user, isSigningUp: false });
       toast.success("Account created successfully");
     } catch (error) {
@@ -22,8 +28,12 @@ export const useAuthStore = create((set) => ({
   login: async (credentials) => {
     set({ isLoggingIn: true });
     try {
-      const response = await axios.post("/auth/login", credentials);
-      set({ user: response.data.user, isLoggingIn: false });
+      const response = await axios.post(
+        "http://localhost:3000/auth/login",
+        credentials
+      );
+      console.log("---->", response.data.response.token);
+      set({ user: response, isLoggingIn: false, isLoggedIn: true });
     } catch (error) {
       set({ isLoggingIn: false, user: null });
       toast.error(error.response.data.message || "Login failed");

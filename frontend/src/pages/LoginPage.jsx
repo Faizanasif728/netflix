@@ -7,7 +7,7 @@ const LoginPage = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
-  const { login, isLoggingIn } = useAuthStore();
+  const { login, isLoggingIn, user } = useAuthStore();
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -18,6 +18,7 @@ const LoginPage = () => {
 
     try {
       await login({ email, password });
+      console.log(user);
       // Handle successful login if needed
     } catch (error) {
       console.log(error);

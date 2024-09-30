@@ -91,22 +91,22 @@ module.exports = {
       });
     }
   },
-  getSearchHistory: async (req, res) => {
-    try {
-    } catch (error) {
-      console.log(error);
-      return res.send({
-        error: error,
-      });
-    }
-  },
-  removeItemFromSearchHistory: async (req, res) => {
-    try {
-    } catch (error) {
-      console.log(error);
-      return res.send({
-        error: error,
-      });
-    }
-  },
+  // getSearchHistory: async (req, res) => {
+  //   try {
+  //   } catch (error) {
+  //     console.log(error);
+  //     return res.send({
+  //       error: error,
+  //     });
+  //   }
+  // },
+  // removeItemFromSearchHistory: async (req, res) => {
+  //   try {
+  //   } catch (error) {
+  //     console.log(error);
+  //     return res.send({
+  //       error: error,
+  //     });
+  //   }
+  // },
 };
