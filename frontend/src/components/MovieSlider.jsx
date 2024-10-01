@@ -4,11 +4,13 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import { SMALL_IMG_BASE_URL } from "../utils/constants";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { useAuthStore } from "../store/authUser";
 
 const MovieSlider = ({ category }) => {
   const { contentType } = useContentStore();
   const [content, setContent] = useState([]);
   const [showArrows, setShowArrows] = useState(false);
+  const { user } = useAuthStore();
 
   const sliderRef = useRef(null);
 
@@ -19,7 +21,15 @@ const MovieSlider = ({ category }) => {
 
   useEffect(() => {
     const getContent = async () => {
-      const res = await axios.get(`/${contentType}/${category}`);
+      const res = await axios.get(
+        `http://localhost:3000/${contentType}/${category}`,
+        {
+          headers: {
+            Authorization: `Bearer ${user}`, // Add the token to the Authorization header
+          },
+        }
+      );
+      console.log(contentType, category, res);
       setContent(res.data.content);
     };
 

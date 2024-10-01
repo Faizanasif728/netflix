@@ -39,7 +39,7 @@ function App() {
         />
         <Route
           path="/signUp"
-          element={!user ? <SignUpPage /> : <Navigate to={"/"} />}
+          element={!user ? <SignUpPage /> : <Navigate to={"/login"} />}
         />
         <Route
           path="/watch/:id"

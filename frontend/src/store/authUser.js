@@ -18,7 +18,8 @@ export const useAuthStore = create((set) => ({
         "http://localhost:3000/users/create",
         credentials
       );
-      set({ user: response.data.user, isSigningUp: false });
+      console.log("----SignUP", response);
+      set({ user: response.data.response, isSigningUp: false });
       toast.success("Account created successfully");
     } catch (error) {
       toast.error(error.response.data.message || "Signup failed");
@@ -33,7 +34,11 @@ export const useAuthStore = create((set) => ({
         credentials
       );
       console.log("---->", response.data.response.token);
-      set({ user: response, isLoggingIn: false, isLoggedIn: true });
+      set({
+        user: response.data.response.token,
+        isLoggingIn: false,
+        isLoggedIn: true,
+      });
     } catch (error) {
       set({ isLoggingIn: false, user: null });
       toast.error(error.response.data.message || "Login failed");
@@ -42,7 +47,7 @@ export const useAuthStore = create((set) => ({
   logout: async () => {
     set({ isLoggingOut: true });
     try {
-      await axios.post("/auth/logout");
+      await axios.post("http://localhost:3000/auth/logout");
       set({ user: null, isLoggingOut: false });
       toast.success("Logged out successfully");
     } catch (error) {

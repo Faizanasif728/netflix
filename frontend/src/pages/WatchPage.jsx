@@ -23,7 +23,7 @@ const WatchPage = () => {
   useEffect(() => {
     const getTrailers = async () => {
       try {
-        const res = await axios.get(`/${contentType}/${id}/trailers`);
+        const res = await axios.get(`/${contentType}/${id}/trailer`);
         setTrailers(res.data.trailers);
       } catch (error) {
         if (error.message.includes("404")) {
@@ -53,7 +53,7 @@ const WatchPage = () => {
   useEffect(() => {
     const getContentDetails = async () => {
       try {
-        const res = await axios.get(`/${contentType}/${id}/details`);
+        const res = await axios.get(`/${contentType}/${id}/detail`);
         setContent(res.data.content);
       } catch (error) {
         if (error.message.includes("404")) {
