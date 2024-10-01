@@ -1,8 +1,9 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAuthStore } from "../store/authUser";
 
 const SignUpPage = () => {
+  const navigate = useNavigate();
   const { searchParams } = new URL(document.location);
   const emailValue = searchParams.get("email");
 
@@ -12,9 +13,15 @@ const SignUpPage = () => {
 
   const { signUp, isSigningUp } = useAuthStore();
 
-  const handleSignUp = (e) => {
+  const handleSignUp = async (e) => {
     e.preventDefault();
-    signUp({ email, username, password });
+    try {
+      await signUp({ email, username, password });
+      // Redirect to the login page after successful sign-up
+      navigate("/login");
+    } catch (error) {
+      console.error("Sign-up error: ", error);
+    }
   };
 
   return (

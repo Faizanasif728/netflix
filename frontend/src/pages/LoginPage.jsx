@@ -1,8 +1,9 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAuthStore } from "../store/authUser";
 
 const LoginPage = () => {
+  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -19,6 +20,8 @@ const LoginPage = () => {
     try {
       await login({ email, password });
       console.log(user);
+      // Redirect to the home page after successful login
+      navigate("/");
       // Handle successful login if needed
     } catch (error) {
       console.log(error);

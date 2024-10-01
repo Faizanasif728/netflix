@@ -34,12 +34,13 @@ function App() {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route
-          path="/login"
-          element={!user ? <LoginPage /> : <Navigate to={"/"} />}
+          path="/signUp"
+          element={<SignUpPage />} //added for testing
+          // element={!user ? <SignUpPage /> : <Navigate to={"/login"} />}
         />
         <Route
-          path="/signUp"
-          element={!user ? <SignUpPage /> : <Navigate to={"/login"} />}
+          path="/login"
+          element={!user ? <LoginPage /> : <Navigate to={"/"} />}
         />
         <Route
           path="/watch/:id"

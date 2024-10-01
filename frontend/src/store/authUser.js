@@ -9,7 +9,6 @@ export const useAuthStore = create((set) => ({
   isLoggingOut: false,
   isLoggingIn: false,
   isLoggedIn: false,
-
   signUp: async (credentials) => {
     set({ isSigningUp: true });
     try {
@@ -18,7 +17,8 @@ export const useAuthStore = create((set) => ({
         "http://localhost:3000/users/create",
         credentials
       );
-      console.log("----SignUP", response);
+      console.log("----SignUP", response.statusText);
+
       set({ user: response.data.response, isSigningUp: false });
       toast.success("Account created successfully");
     } catch (error) {

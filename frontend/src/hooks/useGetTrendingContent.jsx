@@ -10,11 +10,14 @@ const useGetTrendingContent = () => {
 
   useEffect(() => {
     const getTrendingContent = async () => {
-      const res = await axios.get(`http://localhost:3000/movie/trending`, {
-        headers: {
-          Authorization: `Bearer ${user}`, // Add the token to the Authorization header
-        },
-      });
+      const res = await axios.get(
+        `http://localhost:3000/${contentType}/trending`,
+        {
+          headers: {
+            Authorization: `Bearer ${user}`, // Add the token to the Authorization header
+          },
+        }
+      );
       console.log(res);
       setTrendingContent(res.data.content);
     };
